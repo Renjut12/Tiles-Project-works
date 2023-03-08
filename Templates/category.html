@@ -1,0 +1,103 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block metadescription %}
+
+  {% if category %}
+
+     {{category.description|truncatewords:155}}
+
+  {% else %}
+
+     Welcome to Mugals Granite & Marbles Company ..........
+
+  {% endif %}
+
+{% endblock %}
+
+
+{% block title %}
+
+    {% if category %}
+
+        {{category.name}} - Mugals Granite Company
+
+    {% else %}
+
+        Mugals Marble & Granite Company
+
+    {% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+
+    {% if category %}
+
+         <div>
+             <p> <a href="{% url 'Stoneapp:all_Product_Category' %}" > Our Product Collections </a></p>
+         </div>
+
+    {% endif %}
+
+    <div>
+        {% if category %}
+            <img src="{{category.image.url}}" alt="{{category.name}}" style="width:520px;height:470px;box-shadow:5px 5px 5px 5px black">
+    </div>
+
+     <br>
+
+             <div style="padding-left:50%;">
+                <h1 style="margin-top:-50%;"> {{category.name}}</h1>
+                <P> {{category.description}}</P>
+             </div>
+
+         {% else %}
+             <div>
+                <img src="{% static 'G:\kirumon\kiran\Granitecompanyproject\static\Banner .png' %}" class="banner" alt="Our Products" width="1115" height="600">
+             </div>
+             <br>
+             <div>
+                <h1 style="color:brown;"> Our Product Collections </h1>
+                <p style="color:green;font-size:18px;">Over the course of a decade, Mugals Granite & Tile has installed more than 25,000 granite, marble and quartz projects in both North and South Carolina.</p>
+             </div>
+
+         {% endif %}
+   <div class="container" style="margin-top:12%;">
+       <div class="row mx_auto">
+         {% for product in products.object_list %}
+         <div class="my_bottom_margin col-9 col-sm-12 col-md-4 col-lg-4">
+             <div class="card-text-center" style="min-width:18rem;">
+                 <a href="{{product.get_url}}"><img class="card-img-top my_image" src="{{product.image.url}}" alt="{{product.name}}" style="width:320px;height:300px;gap:1%;"> </a>
+                 <div class="card-body">
+                     <h4 class="text-center" style="font-size:16px;"> {{ product.name }}</h4>
+                     <p class="text-center" style="color:red;"><b> {{ product.price }}/- </b></p>
+                 </div>
+             </div>
+         </div>
+         {% endfor %}
+     </div>
+       <div class="mx-auto">
+           {% if products.paginator.num_pages > 1 %}
+
+           <hr>
+
+           <div class="text-center">
+               {% for pg in products.paginator.page_range %}
+               <a href="?page={{pg}}"  class="btn btn-info btn-sm {% if products.number == pg %} active  {% endif %}"> {{pg}} </a>
+               {% endfor %}
+           </div>
+           {% endif %}
+       </div>
+       <br>
+   </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
